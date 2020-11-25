@@ -75,47 +75,70 @@ public class MovieDAO_DB implements IMovieDataAccess {
         throw new Exception("Could not create movie");
     }
 
-    public void updateMovie(Movie movie) throws Exception
-    {
-        try (Connection con = databaseConnector.getConnection())
-        {
+    public void updateMovie(Movie movie) throws Exception {
+        try (Connection con = databaseConnector.getConnection()) {
             String sql = "UPDATE Movie SET Title=?, YEAR=? WHERE Id=?;";
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, movie.getTitle());
             preparedStatement.setInt(2, movie.getYear());
             preparedStatement.setInt(3, movie.getId());
-            if(preparedStatement.executeUpdate() != 1)
-            {
+            if (preparedStatement.executeUpdate() != 1) {
                 throw new Exception("Could not update Movie: " + movie.toString());
             }
         }
     }
 
-    public void deleteMovie(Movie movie)
-    {
-
+    public void deleteMovie(Movie movie) throws Exception {
+        try (Connection con = databaseConnector.getConnection()) {
+            String sql = "DELETE FROM Movie WHERE Id=?;";
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setInt(1, movie.getId());
+            if (preparedStatement.executeUpdate() != 1) {
+                throw new Exception("Could not delete Movie: " + movie.toString());
+            }
+        }
     }
 
-    public List<Movie> searchMovies(String title)
-    {
-        return null;
+    public List<Movie> searchMovies(String query) throws Exception {
+        try (Connection connection = databaseConnector.getConnection())
+        {
+            List<Movie> resultMovies = new ArrayList<>();
+            String sql = "SELECT * FROM Movie WHERE Title LIKE ?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%"+ query +"%");
+            if(preparedStatement.execute())
+            {
+                ResultSet resultSet = preparedStatement.getResultSet();
+                while (resultSet.next())
+                {
+                    int id = resultSet.getInt("Id");
+                    String title = resultSet.getString("Title");
+                    int year = resultSet.getInt("Year");
+                    Movie movie = new Movie(id, title, year);
+                    resultMovies.add(movie);
+                }
+                return resultMovies;
+            }
+            else
+            {
+                throw new Exception("Could not search for movies");
+            }
+        }
     }
 
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
 
         MovieDAO_DB movieDAO_db = new MovieDAO_DB();
+        try {
 
-        try
-        {
+            List<Movie> searchResult = movieDAO_db.searchMovies("th8");
+            for (Movie movie : searchResult)
+            {
+                System.out.println(movie);
+            }
 
-            Movie movie = movieDAO_db.createMovie("Pulp Fiction", 2017);
-            movie.setYear(1994);
-            movieDAO_db.updateMovie(movie);
-            System.out.println(movie);
-
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             e.printStackTrace();
         }
