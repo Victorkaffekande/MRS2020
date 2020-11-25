@@ -75,15 +75,45 @@ public class MovieDAO_DB implements IMovieDataAccess {
         throw new Exception("Could not create movie");
     }
 
+    public void updateMovie(Movie movie) throws Exception
+    {
+        try (Connection con = databaseConnector.getConnection())
+        {
+            String sql = "UPDATE Movie SET Title=?, YEAR=? WHERE Id=?;";
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setString(1, movie.getTitle());
+            preparedStatement.setInt(2, movie.getYear());
+            preparedStatement.setInt(3, movie.getId());
+            if(preparedStatement.executeUpdate() != 1)
+            {
+                throw new Exception("Could not update Movie: " + movie.toString());
+            }
+        }
+    }
+
+    public void deleteMovie(Movie movie)
+    {
+
+    }
+
+    public List<Movie> searchMovies(String title)
+    {
+        return null;
+    }
+
+
     public static void main(String[] args)  {
 
         MovieDAO_DB movieDAO_db = new MovieDAO_DB();
 
-        try {
+        try
+        {
 
-            Movie movie = movieDAO_db.createMovie("Star Wars Ep. 9',2020);DROP TABLE Movie;--", 2020);
-
+            Movie movie = movieDAO_db.createMovie("Pulp Fiction", 2017);
+            movie.setYear(1994);
+            movieDAO_db.updateMovie(movie);
             System.out.println(movie);
+
         } catch (Exception e)
         {
             System.out.println(e.getMessage());
