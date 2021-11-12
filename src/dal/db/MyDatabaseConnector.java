@@ -1,14 +1,15 @@
 package dal.db;
 
 
-import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
-import com.microsoft.sqlserver.jdbc.SQLServerException;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
 public class MyDatabaseConnector {
 
+
+    //Class will be included when we start working on DATABASES
+    /*
     private SQLServerDataSource dataSource;
 
     public MyDatabaseConnector()
@@ -34,8 +35,8 @@ public class MyDatabaseConnector {
 
             System.out.println("Is it open? " + !connection.isClosed());
 
-        } //COnnection get closed here
+        } //Connection gets closed here
     }
-
+    */
 
 }

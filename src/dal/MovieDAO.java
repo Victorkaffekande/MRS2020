@@ -14,32 +14,22 @@ public class MovieDAO implements IMovieDataAccess {
 
     public List<Movie> getAllMovies() throws IOException {
 
-        List<Movie> allMovies = new ArrayList<>();
+        return null;
+    }
 
-        try (BufferedReader br = new BufferedReader(new FileReader(new File(MOVIES_FILE))))
-        {
-            boolean hasLines = true;
-            while (hasLines) {
-                String line = br.readLine();
-                if (line == null)
-                    hasLines = false;
+    @Override
+    public Movie createMovie(String title, int year) throws Exception {
+        return null;
+    }
 
-                if (hasLines && !line.isBlank())
-                {
-                    String[] separatedLine = line.split(",");
+    @Override
+    public void updateMovie(Movie movie) throws Exception {
 
-                    int id = Integer.parseInt(separatedLine[0]);
-                    int year = Integer.parseInt(separatedLine[1]);
-                    String title = separatedLine[2];
+    }
 
-                    Movie movie = new Movie(id, title, year);
-                    allMovies.add(movie);
-                }
-            }
-        }
+    @Override
+    public void deleteMovie(Movie movie) throws Exception {
 
-
-        return allMovies;
     }
 
 

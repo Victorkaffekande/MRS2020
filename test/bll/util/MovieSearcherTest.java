@@ -1,16 +1,17 @@
 package bll.util;
 
 import be.Movie;
-import org.junit.jupiter.api.Test;
+import org.junit.Assert;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+
 
 class MovieSearcherTest {
 
-/*
+
     @Test
     void search() {
 
@@ -25,11 +26,11 @@ class MovieSearcherTest {
         MovieSearcher instance = new MovieSearcher();
         List<Movie> result = instance.search(searchBase, query);
 
-        assertNotNull( result, "Assert that the search method returns an object");
-        assertTrue( result.size() == 1, "Search for \"red\" should return one result");
-        assertTrue(result.get(0).getId() == 1, "Search for \"red\" should return result with ID: 1");
+        Assert.assertNotNull( "Assert that the search method returns an object",result);
+        Assert.assertTrue( "Search for \"red\" should return one result",result.size() == 1);
+        Assert.assertTrue("Search for \"red\" should return result with ID: 1",result.get(0).getId() == 1);
 
 
 
-    }*/
+    }
 }
