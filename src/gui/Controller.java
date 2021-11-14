@@ -3,6 +3,7 @@ package gui;
 import be.Movie;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
@@ -55,6 +56,6 @@ public class Controller implements Initializable {
         alert.showAndWait();
     }
 
-
-
+    public void createMovieButton(ActionEvent actionEvent) {
+    }
 }

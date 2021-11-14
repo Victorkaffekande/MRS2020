@@ -1,5 +1,6 @@
 package gui;
 
+import dal.MovieDAO;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,13 +12,15 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        primaryStage.setTitle("movie master 3000");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         launch(args);
+
+
     }
 }

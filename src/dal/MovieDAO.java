@@ -5,11 +5,11 @@ import be.Movie;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class MovieDAO implements IMovieDataAccess {
 
     private static final String MOVIES_FILE = "data/movie_titles.txt";
+    private static final String TEST_FILE = "data/test_doc.txt";
 
 
     /**
@@ -36,9 +36,20 @@ public class MovieDAO implements IMovieDataAccess {
 
     @Override
     public Movie createMovie(String title, int year) throws Exception {
-        int id = getAllMovies().size();
-        Movie movie = new Movie(id,year,title);
-        return movie;
+
+        FileWriter fileWriter = new FileWriter(TEST_FILE, true);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+        List<Movie> movieList = getAllMovies();
+
+        int id = movieList.get(movieList.lastIndexOf(movieList)).getId();
+        Movie movie = new Movie(id, year, title);
+
+
+        bufferedWriter.write(id + "," + year + "," + title + "\n");
+        bufferedWriter.close();
+
+        return null;
     }
 
     @Override
