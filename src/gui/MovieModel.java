@@ -20,8 +20,6 @@ public class MovieModel {
         moviesToBeViewed.addAll(movieManager.getAllMovies());
     }
 
-
-
     public ObservableList<Movie> getObservableMovies() {
         return moviesToBeViewed;
     }
@@ -31,4 +29,10 @@ public class MovieModel {
         moviesToBeViewed.clear();
         moviesToBeViewed.addAll(searchResults);
     }
+
+    public void createMovie(String title, int year) throws Exception {
+        Movie movie = movieManager.createMovie(title,year);
+        moviesToBeViewed.add(movie);
+    }
+
 }

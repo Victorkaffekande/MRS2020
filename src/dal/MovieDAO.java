@@ -18,7 +18,8 @@ public class MovieDAO implements IMovieDataAccess {
      */
     public List<Movie> getAllMovies() throws IOException {
         List<Movie> movieList = new ArrayList<>();
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(MOVIES_FILE));
+        File file = new File(MOVIES_FILE);
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 
         if (bufferedReader.lines() != null){
             for (String line : bufferedReader.lines().toList()){
@@ -36,20 +37,20 @@ public class MovieDAO implements IMovieDataAccess {
 
     @Override
     public Movie createMovie(String title, int year) throws Exception {
-
-        FileWriter fileWriter = new FileWriter(TEST_FILE, true);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
+        // creating the movie object
         List<Movie> movieList = getAllMovies();
+        int size = movieList.size();
+        int lastId = movieList.get(size-1).getId();
+        int id = lastId+1;
 
-        int id = movieList.get(movieList.lastIndexOf(movieList)).getId();
-        Movie movie = new Movie(id, year, title);
 
-
+        // adding the movie info to the file
+        FileWriter fileWriter = new FileWriter(MOVIES_FILE, true);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
         bufferedWriter.write(id + "," + year + "," + title + "\n");
         bufferedWriter.close();
 
-        return null;
+        return new Movie(id, year, title);
     }
 
     @Override
@@ -59,6 +60,15 @@ public class MovieDAO implements IMovieDataAccess {
 
     @Override
     public void deleteMovie(Movie movie) throws Exception {
+        int id = movie.getId();
+        String title = movie.getTitle();
+        int year = movie.getYear();
+
+        File testFile = new File(TEST_FILE);
+        FileWriter fileWriter = new FileWriter(testFile,false);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+        
 
     }
 

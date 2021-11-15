@@ -22,6 +22,10 @@ public class MovieManager {
         return movieDAO.getAllMovies();
     }
 
+    public Movie createMovie(String title, int year) throws Exception {
+        return movieDAO.createMovie(title,year);
+    }
+
     public List<Movie> searchMovies(String query) throws Exception {
         List<Movie> allMovies = getAllMovies();
         List<Movie> searchResult = movieSearcher.search(allMovies, query);
