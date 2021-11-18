@@ -3,7 +3,10 @@ package dal;
 import be.Movie;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class MovieDAO implements IMovieDataAccess {
@@ -44,17 +47,60 @@ public class MovieDAO implements IMovieDataAccess {
         int id = lastId+1;
 
 
-        // adding the movie info to the file
-        FileWriter fileWriter = new FileWriter(MOVIES_FILE, true);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-        bufferedWriter.write(id + "," + year + "," + title + "\n");
-        bufferedWriter.close();
+        try{// adding the movie info to the file
+            FileWriter fileWriter = new FileWriter(MOVIES_FILE, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(id + "," + year + "," + title + "\n");
+        }catch (Exception e){
+            throw e;
+        }
+
 
         return new Movie(id, year, title);
     }
 
     @Override
     public void updateMovie(Movie movie) throws Exception {
+        try{
+            File tmpFile = new File("data/tmp.txt");
+            File movieFile = new File(MOVIES_FILE);
+            List<Movie> allMovies = getAllMovies();
+            allMovies.removeIf((Movie t) -> t.getId() == movie.getId());
+            allMovies.add(movie);
+
+            //sort movies by ID
+            allMovies.sort(Comparator.comparingInt(Movie::getId));
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(tmpFile));
+                for (Movie mov : allMovies){
+                    bw.write(mov.getId() + "," + mov.getYear() + "," + mov.getTitle());
+                    bw.newLine();
+                }
+            bw.close();
+
+            //Overwrite the movie file with the tmp file
+            InputStream in = new FileInputStream(tmpFile);
+            OutputStream out = new FileOutputStream(movieFile);
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+            in.close();
+            out.close();
+            // Delete tmp file
+            Files.delete(tmpFile.toPath());
+
+        }
+        catch (IOException ex){
+            System.out.println("error");
+        }
+
+
+
+
+
+
 
     }
 

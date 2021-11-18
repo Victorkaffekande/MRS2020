@@ -35,4 +35,10 @@ public class MovieModel {
         moviesToBeViewed.add(movie);
     }
 
+    public void updateMovie(Movie movie) throws Exception{
+        movieManager.updateMovie(movie);
+        moviesToBeViewed.remove(movie);
+        moviesToBeViewed.add(movie);
+    }
+
 }

@@ -33,6 +33,20 @@ public class Movie {
     }
 
     @Override
+    public boolean equals(Object obj){
+        if (obj == this)
+            return true;
+
+        if (obj instanceof Movie){
+            Movie other = (Movie) obj;
+            return other.getId() == this.id;
+        } else{
+            return super.equals(obj);
+        }
+    }
+
+
+    @Override
     public String toString()
     {
         return id + ": " + title + " ("+year+")";
