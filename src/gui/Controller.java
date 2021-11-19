@@ -91,17 +91,17 @@ public class Controller implements Initializable {
     }
 
     public void deleteMovieButton(ActionEvent actionEvent) {
-        ObservableList<Movie> selectedRows, allMovies;
+        ObservableList<Movie> allMovies;
         allMovies = movieModel.getObservableMovies();
-        selectedRows = lstMovies.getSelectionModel().getSelectedItems();
+        Movie selectedRow = lstMovies.getSelectionModel().getSelectedItem();
 
         //loop over selected rows and delete them from allTask list selected rows is not empty
-        if (selectedRows.isEmpty()){
+        if (selectedRow == null){
             infoError("Please select a task and try again");
         }
         else
         {
-            allMovies.removeAll(selectedRows);
+            allMovies.removeAll(selectedRow);
             lstMovies.getSelectionModel().clearSelection();
         }
 
@@ -119,6 +119,7 @@ public class Controller implements Initializable {
             int yearInput = Integer.parseInt(updateRealeaseYearInput.getText());
             Movie updatedMovie = new Movie(selectedMovie.getId(),yearInput,titleInput);
             movieModel.updateMovie(updatedMovie);
+            lstMovies.getSelectionModel().clearSelection();
         }
 
     }

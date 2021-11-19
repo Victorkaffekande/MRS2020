@@ -12,7 +12,7 @@ import java.util.List;
 public class MovieDAO implements IMovieDataAccess {
 
     private static final String MOVIES_FILE = "data/movie_titles.txt";
-    private static final String TEST_FILE = "data/test_doc.txt";
+    private static final String TMP_FILE = "data/tmp.txt";
 
 
     /**
@@ -41,28 +41,31 @@ public class MovieDAO implements IMovieDataAccess {
     @Override
     public Movie createMovie(String title, int year) throws Exception {
         // creating the movie object
-        List<Movie> movieList = getAllMovies();
-        int size = movieList.size();
-        int lastId = movieList.get(size-1).getId();
+        List<Movie> allMovies = getAllMovies();
+        int size = allMovies.size();
+        int lastId = allMovies.get(size-1).getId();
         int id = lastId+1;
 
 
         try{// adding the movie info to the file
-            FileWriter fileWriter = new FileWriter(MOVIES_FILE, true);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-            bufferedWriter.write(id + "," + year + "," + title + "\n");
+            File movieFile = new File(MOVIES_FILE);
+            FileWriter fileWriter = new FileWriter(movieFile, true);
+            BufferedWriter bw = new BufferedWriter(fileWriter);
+
+            bw.write(id + "," + year + "," + title);
+            bw.newLine();
+            bw.close();
+
         }catch (Exception e){
-            throw e;
+            System.out.println("fuck");;
         }
-
-
         return new Movie(id, year, title);
     }
 
     @Override
-    public void updateMovie(Movie movie) throws Exception {
+    public void updateMovie(Movie movie) {
         try{
-            File tmpFile = new File("data/tmp.txt");
+            File tmpFile = new File(TMP_FILE);
             File movieFile = new File(MOVIES_FILE);
             List<Movie> allMovies = getAllMovies();
             allMovies.removeIf((Movie t) -> t.getId() == movie.getId());
@@ -96,26 +99,37 @@ public class MovieDAO implements IMovieDataAccess {
             System.out.println("error");
         }
 
-
-
-
-
-
-
     }
 
     @Override
     public void deleteMovie(Movie movie) throws Exception {
-        int id = movie.getId();
-        String title = movie.getTitle();
-        int year = movie.getYear();
+        File tmpFile = new File("data/tmp.txt");
+        File movieFile = new File(MOVIES_FILE);
+        List<Movie> allMovies = getAllMovies();
+        allMovies.removeIf((Movie t) -> t.getId() == movie.getId());
 
-        File testFile = new File(TEST_FILE);
-        FileWriter fileWriter = new FileWriter(testFile,false);
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        //sort movies by ID
+        allMovies.sort(Comparator.comparingInt(Movie::getId));
 
-        
+        BufferedWriter bw = new BufferedWriter(new FileWriter(tmpFile));
+        for (Movie mov : allMovies){
+            bw.write(mov.getId() + "," + mov.getYear() + "," + mov.getTitle());
+            bw.newLine();
+        }
+        bw.close();
 
+        //Overwrite the movie file with the tmp file
+        InputStream in = new FileInputStream(tmpFile);
+        OutputStream out = new FileOutputStream(movieFile);
+        byte[] buf = new byte[1024];
+        int len;
+        while ((len = in.read(buf)) > 0) {
+            out.write(buf, 0, len);
+        }
+        in.close();
+        out.close();
+        // Delete tmp file
+        Files.delete(tmpFile.toPath());
     }
 
 }
