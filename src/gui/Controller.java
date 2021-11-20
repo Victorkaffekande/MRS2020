@@ -131,9 +131,5 @@ public class Controller implements Initializable {
         Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
         updateTitleInput.setText(selectedMovie.getTitle());
         updateRealeaseYearInput.setText(selectedMovie.getYear() + "");
-
-
-
-
     }
 }

@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 public class MovieDAO implements IMovieDataAccess {
@@ -30,7 +31,6 @@ public class MovieDAO implements IMovieDataAccess {
                 int id = Integer.parseInt(lineSplit[0]);
                 int releaseYear = Integer.parseInt(lineSplit[1]);
                 String title = lineSplit[2];
-
                 Movie movie = new Movie(id,releaseYear,title);
                 movieList.add(movie);
             }
@@ -128,5 +128,6 @@ public class MovieDAO implements IMovieDataAccess {
         // Delete tmp file
         Files.delete(tmpFile.toPath());
     }
+
 
 }
