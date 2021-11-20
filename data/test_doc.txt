@@ -17765,8 +17765,5 @@
 17772,2015,Django Unchained
 17773,2015,Django Unchained
 17774,2015,Django Unchained
-17775,2026,One test too far
-17776,6565,return of testman
-17777,343,PPP
-17778,22,kkk
-17779,343,oo
+
+17775,2025,Adventures of testman!

@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
-import java.util.Comparator;
 import java.util.List;
 
 public class MovieModel {
@@ -40,8 +39,6 @@ public class MovieModel {
         movieManager.updateMovie(movie);
         moviesToBeViewed.remove(movie);
         moviesToBeViewed.add(movie);
-        moviesToBeViewed.sort(Comparator.comparingInt(Movie::getId));
-
     }
 
 }
