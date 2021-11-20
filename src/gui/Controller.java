@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -123,6 +124,16 @@ public class Controller implements Initializable {
             movieModel.updateMovie(updatedMovie);
             lstMovies.getSelectionModel().clearSelection();
         }
+
+    }
+
+    public void titleAndYearToUpdater(MouseEvent mouseEvent) {
+        Movie selectedMovie = lstMovies.getSelectionModel().getSelectedItem();
+        updateTitleInput.setText(selectedMovie.getTitle());
+        updateRealeaseYearInput.setText(selectedMovie.getYear() + "");
+
+
+
 
     }
 }
