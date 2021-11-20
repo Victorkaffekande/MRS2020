@@ -62,7 +62,7 @@ public class MovieDAO implements IMovieDataAccess {
     @Override
     public void updateMovie(Movie movie) throws Exception {
         try{
-            File tmpFile = new File("data/tmp.txt");
+            File tmpFile = new File(TMP_FILE);
             File movieFile = new File(MOVIES_FILE);
             List<Movie> allMovies = getAllMovies();
             allMovies.removeIf((Movie t) -> t.getId() == movie.getId());
@@ -90,7 +90,6 @@ public class MovieDAO implements IMovieDataAccess {
             out.close();
             // Delete tmp file
             Files.delete(tmpFile.toPath());
-
         }
         catch (IOException ex){
             System.out.println("error");
