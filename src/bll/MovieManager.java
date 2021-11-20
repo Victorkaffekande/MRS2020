@@ -36,4 +36,7 @@ public class MovieManager {
         return searchResult;
     }
 
+    public void deleteMovie(Movie movie) throws Exception {
+        movieDAO.deleteMovie(movie);
+    }
 }

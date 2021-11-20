@@ -90,7 +90,7 @@ public class Controller implements Initializable {
 
     }
 
-    public void deleteMovieButton(ActionEvent actionEvent) {
+    public void deleteMovieButton(ActionEvent actionEvent) throws Exception {
         ObservableList<Movie> selectedRows, allMovies;
         allMovies = movieModel.getObservableMovies();
         selectedRows = lstMovies.getSelectionModel().getSelectedItems();
@@ -101,7 +101,9 @@ public class Controller implements Initializable {
         }
         else
         {
-            allMovies.removeAll(selectedRows);
+            Movie movie = lstMovies.getSelectionModel().getSelectedItem();
+            allMovies.remove(movie);
+            movieModel.deleteMovie(movie);
             lstMovies.getSelectionModel().clearSelection();
         }
 
@@ -119,6 +121,7 @@ public class Controller implements Initializable {
             int yearInput = Integer.parseInt(updateRealeaseYearInput.getText());
             Movie updatedMovie = new Movie(selectedMovie.getId(),yearInput,titleInput);
             movieModel.updateMovie(updatedMovie);
+            lstMovies.getSelectionModel().clearSelection();
         }
 
     }
