@@ -1,11 +1,14 @@
 package bll;
 
 import be.Movie;
+import be.User;
 import bll.util.MovieSearcher;
 import dal.IMovieDataAccess;
 import dal.MovieDAO;
 import dal.MovieDAO_Mock;
+import dal.UserDAO;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 public class MovieManager {
@@ -13,9 +16,11 @@ public class MovieManager {
     private MovieSearcher movieSearcher = new MovieSearcher();
 
     private IMovieDataAccess movieDAO;
+    private UserDAO userDAO;
 
     public MovieManager() {
         movieDAO = new MovieDAO();
+        userDAO = new UserDAO();
     }
 
     public List<Movie> getAllMovies() throws Exception {
@@ -39,4 +44,14 @@ public class MovieManager {
     public void deleteMovie(Movie movie) throws Exception {
         movieDAO.deleteMovie(movie);
     }
+
+    public List<User> getAllUsers() throws FileNotFoundException {
+        return userDAO.getAllUsers();
+    }
+
+
+
+
+
+
 }

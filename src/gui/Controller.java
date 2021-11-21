@@ -25,13 +25,16 @@ public class Controller implements Initializable {
     public TextField titleInput;
     public TextField updateTitleInput;
     public TextField updateRealeaseYearInput;
+    public ListView lstUsers;
 
     private MovieModel movieModel;
+    private UserModel userModel;
 
     public Controller()  {
 
         try {
             movieModel = new MovieModel();
+            userModel = new UserModel();
         } catch (Exception e) {
             displayError(e);
             e.printStackTrace();
@@ -43,6 +46,8 @@ public class Controller implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         lstMovies.setItems(movieModel.getObservableMovies());
+        lstUsers.setItems(userModel.getObservableUsers());
+
         //Selection mode SINGLE / MULTIPLE
         lstMovies.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         txtMovieSearch.textProperty().addListener((observableValue, oldValue, newValue) -> {

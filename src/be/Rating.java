@@ -59,7 +59,6 @@ public class Rating {
 
     /**
      * Gets the rating value.
-     *
      * @return An integer.
      */
     public int getRating()
